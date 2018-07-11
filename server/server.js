@@ -13,10 +13,18 @@ app.use(express.static(publicpath));
 
 io.on('connection',(socket)=>{
   console.log('new user connected');
+
+  //send message to a new user
   socket.emit('newMessage',generateMessage('Admin','welcome to the chat app'));
+
+  //send message to everyone except the new user
   socket.broadcast.emit('newMessage',generateMessage('Admin','new user joined'));
-  socket.on('createMessage',(message)=>{
+
+  //listen for new messages
+  socket.on('createMessage',(message,callback)=>{
     console.log('create message',message);
+    callback('This is from the server');
+    //send the message to everyone
     io.emit('newMessage',generateMessage(message.from,message.text));
   });
 
