@@ -24,7 +24,7 @@ io.on('connection',(socket)=>{
   //listen for new messages
   socket.on('createMessage',(message,callback)=>{
     console.log('create message',message);
-    callback('This is from the server');
+    callback();
     //send the message to everyone
     io.emit('newMessage',generateMessage(message.from,message.text));
   });
